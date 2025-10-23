@@ -4,7 +4,7 @@
   <h3>Technology Stack</h3>
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="80" height="80" alt="React" />
   <img src="https://vitejs.dev/logo.svg" width="80" height="80" alt="Vite" />
-  <img src="https://public.roboflow.com/images/logo.png" width="150" height="150" alt="Roboflow" />
+  <img src="https://public.roboflow.com/images/logo.png" width="150" height="150" alt="Roboflow" style="margin-top: -10px;" />
   <img src="https://fastapi.tiangolo.com/img/logo-margin/logo-teal.svg" width="150" height="150" alt="FastAPI" />
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/raspberrypi/raspberrypi-original.svg" width="80" height="80" alt="Raspberry Pi" />
 </div>
