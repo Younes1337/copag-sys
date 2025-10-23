@@ -9,6 +9,15 @@
 </div>
 
 <div align="center">
+  <h3>Technology Stack</h3>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="60" height="60" alt="React" />
+  <img src="https://vitejs.dev/logo.svg" width="60" height="60" alt="Vite" />
+  <img src="https://roboflow.com/favicon.ico" width="60" height="60" alt="Roboflow" />
+  <img src="https://fastapi.tiangolo.com/img/logo-margin/logo-teal.svg" width="60" height="60" alt="FastAPI" />
+  <img src="https://telegram.org/img/t_logo.svg" width="60" height="60" alt="Telegram" />
+</div>
+
+<div align="center">
   <h3>Real-time Driver Distraction Detection System</h3>
   <p>Advanced AI-powered monitoring solution for driver safety and behavior analysis</p>
 </div>
