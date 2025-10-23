@@ -1,20 +1,20 @@
 # Copag Monitoring System
 
 <div align="center">
+  <h3>Technology Stack</h3>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="80" height="80" alt="React" />
+  <img src="https://vitejs.dev/logo.svg" width="80" height="80" alt="Vite" />
+  <img src="https://raw.githubusercontent.com/roboflow-ai/roboflow-js/main/assets/roboflow-logo.png" width="80" height="80" alt="Roboflow" />
+  <img src="https://fastapi.tiangolo.com/img/logo-margin/logo-teal.svg" width="150" height="150" alt="FastAPI" />
+  <img src="https://telegram.org/img/t_logo.svg" width="80" height="80" alt="Telegram" />
+</div>
+
+<div align="center">
   <img src="https://img.shields.io/badge/React-18.3.1-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React" />
   <img src="https://img.shields.io/badge/Vite-5.4.19-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
   <img src="https://img.shields.io/badge/Roboflow-Inference-FF6B35?style=for-the-badge&logo=roboflow&logoColor=white" alt="Roboflow" />
   <img src="https://img.shields.io/badge/FastAPI-1.0.0-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
   <img src="https://img.shields.io/badge/Telegram_Bot-2.0-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram Bot" />
-</div>
-
-<div align="center">
-  <h3>Technology Stack</h3>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="60" height="60" alt="React" />
-  <img src="https://vitejs.dev/logo.svg" width="60" height="60" alt="Vite" />
-  <img src="https://roboflow.com/favicon.ico" width="60" height="60" alt="Roboflow" />
-  <img src="https://fastapi.tiangolo.com/img/logo-margin/logo-teal.svg" width="60" height="60" alt="FastAPI" />
-  <img src="https://telegram.org/img/t_logo.svg" width="60" height="60" alt="Telegram" />
 </div>
 
 <div align="center">
