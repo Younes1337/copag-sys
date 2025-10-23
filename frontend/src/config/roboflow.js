@@ -22,11 +22,11 @@ export const ROBOFLOW_CONFIG = {
   
   // Detection Classes - Updated to match actual model classes
   classes: {
-    'DangerousDriving': { color: '#FF0000', label: 'Dangerous Driving' },
-    'Distracted': { color: '#FFA500', label: 'Distracted' },
-    'Drinking': { color: '#8B4513', label: 'Drinking' },
-    'SafeDriving': { color: '#00FF00', label: 'Safe Driving' },
-    'Yawn': { color: '#FF69B4', label: 'Yawning' }
+    'DangerousDriving': { color: '#FF0000', label: 'Dangerous Driving', icon: 'AlertTriangle' },
+    'Distracted': { color: '#FFA500', label: 'Distracted', icon: 'Eye' },
+    'Drinking': { color: '#8B4513', label: 'Drinking', icon: 'Coffee' },
+    'SafeDriving': { color: '#00FF00', label: 'Safe Driving', icon: 'Shield' },
+    'Yawn': { color: '#FF69B4', label: 'Yawning', icon: 'Zap' }
   }
 };
 

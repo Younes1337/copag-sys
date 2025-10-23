@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area, PieChart, Pie, Cell } from 'recharts';
-import { Eye, Activity, PieChart as PieChartIcon } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
+import { Eye, Activity } from 'lucide-react';
 import { useEyeMetrics } from '@/hooks/useEyeMetrics';
 import { useInference } from '@/hooks/useInference';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -29,7 +29,6 @@ export const EyeMetrics = ({ isActive, videoElement }) => {
   // Data arrays for charts
   const [earData, setEarData] = useState([]);
   const [frequencyData, setFrequencyData] = useState([]);
-  const [pieChartData, setPieChartData] = useState([]);
 
   // Update data arrays when metrics change
   useEffect(() => {
@@ -51,29 +50,6 @@ export const EyeMetrics = ({ isActive, videoElement }) => {
     });
   }, [ear, blinkFrequency, isActive]);
 
-  // Update pie chart data based on detection counts
-  useEffect(() => {
-    if (!inferenceInitialized || !detectionCounts) return;
-
-    const totalDetections = Object.values(detectionCounts).reduce((sum, count) => sum + count, 0);
-    
-    if (totalDetections === 0) {
-      setPieChartData([]);
-      return;
-    }
-
-    const pieData = Object.entries(detectionCounts).map(([className, count]) => {
-      const classConfig = getClassConfig(className);
-      return {
-        name: classConfig.label || className,
-        value: count,
-        color: classConfig.color || '#808080',
-        percentage: Math.round((count / totalDetections) * 100)
-      };
-    });
-
-    setPieChartData(pieData);
-  }, [detectionCounts, inferenceInitialized, getClassConfig]);
 
   // Start/stop metrics based on camera state
   useEffect(() => {
@@ -231,70 +207,6 @@ export const EyeMetrics = ({ isActive, videoElement }) => {
           </CardContent>
         </Card>
 
-        {/* Detection Distribution Pie Chart */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <PieChartIcon className="w-5 h-5 text-purple-500" />
-              Detection Distribution
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="h-64">
-              {pieChartData.length > 0 ? (
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={pieChartData}
-                      cx="50%"
-                      cy="50%"
-                      labelLine={false}
-                      label={({ name, percentage }) => `${name}: ${percentage}%`}
-                      outerRadius={80}
-                      fill="#8884d8"
-                      dataKey="value"
-                    >
-                      {pieChartData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <Tooltip 
-                      contentStyle={{ 
-                        backgroundColor: 'white', 
-                        border: '1px solid #e5e7eb',
-                        borderRadius: '8px',
-                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                      }}
-                      formatter={(value, name, props) => [
-                        `${value} detections (${props.payload.percentage}%)`, 
-                        props.payload.name
-                      ]}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-              ) : (
-                <div className="flex items-center justify-center h-full text-muted-foreground">
-                  <div className="text-center">
-                    <PieChartIcon className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                    <p className="text-sm">No detections yet</p>
-                    <p className="text-xs">Start camera to see real-time data</p>
-                  </div>
-                </div>
-              )}
-            </div>
-            <div className="mt-4 flex items-center justify-between text-sm">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-purple-500"></div>
-                <span className="text-muted-foreground">
-                  Total: {Object.values(detectionCounts).reduce((sum, count) => sum + count, 0)} detections
-                </span>
-              </div>
-              <div className="text-muted-foreground">
-                <span className="font-medium">Real-time</span> AI detection
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </div>
 
     </div>

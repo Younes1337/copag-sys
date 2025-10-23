@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { getRoboflowConfig, validateConfig } from '@/config/roboflow';
+import { updateDetectionCounts, getDetectionStats } from '@/utils/detectionStorage';
 
 // Get configuration
 const ROBOFLOW_CONFIG = getRoboflowConfig();
@@ -16,6 +17,7 @@ export const useInference = () => {
   const [detections, setDetections] = useState([]);
   const [detectionCounts, setDetectionCounts] = useState({});
   const [fps, setFps] = useState(0);
+  const [storageStats, setStorageStats] = useState(null);
   
   const modelRef = useRef(null);
   const frameCountRef = useRef(0);
@@ -26,6 +28,8 @@ export const useInference = () => {
   const targetFPS = 3; // Aggressively reduced to 3 FPS for much better performance
   const maxFrameSkipRef = useRef(8); // Process every 8th frame maximum
   const performanceRef = useRef({ slowFrames: 0, totalFrames: 0 });
+  
+  // Real-time detection updates (no debouncing needed)
   
   // Frame-based prediction system
   const frameHistoryRef = useRef([]);
@@ -94,6 +98,20 @@ export const useInference = () => {
   }, [confidenceThreshold]);
 
   /**
+   * Load initial detection data from storage
+   */
+  const loadInitialData = useCallback(() => {
+    try {
+      const stats = getDetectionStats();
+      setStorageStats(stats);
+      setDetectionCounts(stats.detectionCounts);
+      console.log('📊 Loaded initial detection data from storage:', stats);
+    } catch (err) {
+      console.error('Error loading initial detection data:', err);
+    }
+  }, []);
+
+  /**
    * Initialize the Roboflow model
    */
   const initializeModel = useCallback(async () => {
@@ -101,6 +119,9 @@ export const useInference = () => {
     
     setIsLoading(true);
     setError(null);
+    
+    // Load initial data from storage
+    loadInitialData();
     
     try {
       // Validate configuration first
@@ -236,15 +257,28 @@ export const useInference = () => {
       // Update detections with stable predictions
       setDetections(stablePredictions);
       
-      // Update detection counts (simple increment)
-      setDetectionCounts(prevCounts => {
-        const newCounts = { ...prevCounts };
+      // Update detection counts in real-time
+      if (stablePredictions.length > 0) {
+        const newDetections = {};
         stablePredictions.forEach(detection => {
           const className = detection.class;
-          newCounts[className] = (newCounts[className] || 0) + 1;
+          newDetections[className] = (newDetections[className] || 0) + 1;
         });
-        return newCounts;
-      });
+        
+        try {
+          // Update storage immediately for real-time updates
+          const success = updateDetectionCounts(newDetections);
+          if (success) {
+            // Get updated stats from storage
+            const stats = getDetectionStats();
+            setStorageStats(stats);
+            setDetectionCounts(stats.detectionCounts);
+            console.log('💾 Real-time detection update:', stats.detectionCounts);
+          }
+        } catch (err) {
+          console.error('Error updating detection storage:', err);
+        }
+      }
       
       // Calculate FPS
       frameCountRef.current++;
@@ -309,6 +343,7 @@ export const useInference = () => {
     }
     setDetections([]);
     setDetectionCounts({});
+    
     console.log('🛑 Stopped inference loop');
   }, []);
 
@@ -322,6 +357,7 @@ export const useInference = () => {
       if (modelRef.current) {
         modelRef.current.dispose?.();
       }
+      // Cleanup completed
     };
   }, [stopInference]);
 
@@ -350,7 +386,8 @@ export const useInference = () => {
   const getClassConfig = useCallback((className) => {
     return DETECTION_CLASSES[className] || { 
       color: '#808080', 
-      label: className 
+      label: className,
+      icon: 'Activity'
     };
   }, []);
 

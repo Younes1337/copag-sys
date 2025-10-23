@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { Sidebar } from "@/components/Dashboard/Sidebar";
 import { TopBar } from "@/components/Dashboard/TopBar";
-import { SafetyScore } from "@/components/Dashboard/SafetyScore";
 // Removed DetailsPanel import
 // Removed BehaviorChart import
 import { AIInsights } from "@/components/Dashboard/AIInsights";
 import { VideoFeed } from "@/components/Dashboard/VideoFeed";
 import { EyeMetrics } from "@/components/Dashboard/EyeMetrics";
 import { DistractionPieChart } from "@/components/Dashboard/DistractionPieChart";
+import { ConcentrationGauge } from "@/components/Dashboard/ConcentrationGauge";
 import { useToast } from "@/hooks/use-toast";
 import { useInference } from "@/hooks/useInference";
 import { Eye, AlertTriangle, Activity, Zap, Brain, Wifi } from "lucide-react";
@@ -157,7 +157,11 @@ const Index = () => {
 
             {/* Right Sidebar */}
             <div className="col-span-4 space-y-6">
-              <SafetyScore score={87} change={2} />
+              {/* Driver Concentration Gauge */}
+              <ConcentrationGauge 
+                detectionCounts={detectionCounts}
+                totalDetections={Object.values(detectionCounts).reduce((sum, count) => sum + count, 0)}
+              />
               
               {/* Distraction Analysis Pie Chart */}
               <DistractionPieChart distractionData={distractionData} />
