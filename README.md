@@ -4,7 +4,7 @@
   <h3>Technology Stack</h3>
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="80" height="80" alt="React" />
   <img src="https://vitejs.dev/logo.svg" width="80" height="80" alt="Vite" />
-  <img src="https://img.shields.io/badge/Roboflow-FF6B35?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSIjRkY2QjM1Ii8+Cjwvc3ZnPgo=" width="80" height="80" alt="Roboflow" />
+  <img src="frontend/public/Roboflow-Ai-Logo-PNG-SVG-Vector.png" width="80" height="80" alt="Roboflow" />
   <img src="https://fastapi.tiangolo.com/img/logo-margin/logo-teal.svg" width="150" height="150" alt="FastAPI" />
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/raspberrypi/raspberrypi-original.svg" width="80" height="80" alt="Raspberry Pi" />
   <img src="https://telegram.org/img/t_logo.svg" width="80" height="80" alt="Telegram" />
