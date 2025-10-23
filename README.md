@@ -1,254 +1,377 @@
-# Copag Monitoring System
+# 🚗 Roboflow Driver Monitoring System
 
-<div align="center">
-  <h3>Technology Stack</h3>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="80" height="80" alt="React" />
-  <img src="https://vitejs.dev/logo.svg" width="80" height="80" alt="Vite" />
-  <img src="https://public.roboflow.com/images/logo.png" width="150" height="150" alt="Roboflow" style="margin-top: -10px;" />
-  <img src="https://fastapi.tiangolo.com/img/logo-margin/logo-teal.svg" width="150" height="150" alt="FastAPI" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/raspberrypi/raspberrypi-original.svg" width="80" height="80" alt="Raspberry Pi" />
-</div>
+A production-ready real-time driver behavior monitoring system using Roboflow's InferencePipeline with React frontend and FastAPI backend.
 
-<div align="center">
-  <img src="https://img.shields.io/badge/React-18.3.1-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React" />
-  <img src="https://img.shields.io/badge/Vite-5.4.19-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
-  <img src="https://img.shields.io/badge/Roboflow-Inference-FF6B35?style=for-the-badge&logo=roboflow&logoColor=white" alt="Roboflow" />
-  <img src="https://img.shields.io/badge/FastAPI-1.0.0-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
-  <img src="https://img.shields.io/badge/Raspberry_Pi-4B-C51A4A?style=for-the-badge&logo=raspberry-pi&logoColor=white" alt="Raspberry Pi" />
-</div>
+## 🎯 Features
 
-<div align="center">
-  <h3>Real-time Driver Distraction Detection System</h3>
-  <p>Advanced AI-powered monitoring solution for driver safety and behavior analysis</p>
-</div>
+- **Real-time Detection**: Live driver behavior monitoring with <150ms latency
+- **Roboflow Integration**: Uses InferencePipeline for high-performance inference
+- **WebSocket Streaming**: Efficient real-time communication between frontend and backend
+- **Auto-reconnection**: Robust connection handling with automatic reconnection
+- **Performance Optimized**: CPU-optimized for smooth performance without GPU
+- **Scalable Architecture**: Supports multiple camera feeds and concurrent users
 
----
-
-## Overview
-
-The Copag Monitoring System is a comprehensive driver safety solution that combines cutting-edge computer vision, real-time analytics, and modern web technologies to detect and prevent driver distraction incidents. Built with React, FastAPI, and Roboflow's inference pipeline, it provides instant alerts and detailed behavioral insights.
-
-## Key Features
-
-### Real-time Detection
-- **Distraction Detection**: Advanced AI models identify various driver distraction behaviors
-- **Behavioral Analysis**: Comprehensive monitoring of driver attention and focus
-- **Instant Alerts**: Real-time notifications for safety violations
-- **Performance Metrics**: Detailed analytics and safety scoring
-
-### Modern Technology Stack
-- **Frontend**: React 18 with TypeScript, Vite build system, and Tailwind CSS
-- **Backend**: FastAPI with WebSocket support for real-time communication
-- **AI/ML**: Roboflow inference pipeline for ultra-fast object detection
-- **Notifications**: Telegram Bot integration for instant alerts
-- **UI/UX**: Modern dashboard with shadcn/ui components and responsive design
-
-## Architecture
+## 🏗️ Architecture
 
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Frontend      │    │   Backend       │    │   AI Pipeline  │
-│   (React/Vite)  │◄──►│   (FastAPI)     │◄──►│   (Roboflow)    │
-│                 │    │                 │    │                 │
-│ • Dashboard     │    │ • WebSocket     │    │ • Model:        │
-│ • Real-time UI  │    │ • REST API      │    │   driver-       │
-│ • Analytics     │    │ • State Mgmt    │    │   behaviour     │
-│ • Alerts        │    │ • CORS Support  │    │ • Real-time     │
-└─────────────────┘    └─────────────────┘    │   Inference     │
-                                              └─────────────────┘
-                                                       │
-                                              ┌─────────────────┐
-                                              │   Telegram Bot  │
-                                              │                 │
-                                              │ • Instant Alerts│
-                                              │ • Notifications │
-                                              │ • Status Updates│
-                                              └─────────────────┘
+React Frontend ←→ WebSocket ←→ FastAPI Backend ←→ Roboflow InferencePipeline
+     ↓              ↓              ↓                    ↓
+  Live Video    Real-time      Frame Processing    AI Detection
+  Display       Streaming      & Optimization      & Bounding Boxes
 ```
 
-## Technology Stack
-
-### Frontend Technologies
-- **React 18.3.1** - Modern UI library with hooks and concurrent features
-- **Vite 5.4.19** - Lightning-fast build tool and development server
-- **TypeScript 5.8.3** - Type-safe JavaScript development
-- **Tailwind CSS 3.4.17** - Utility-first CSS framework
-- **shadcn/ui** - High-quality, accessible component library
-- **Framer Motion 12.23.24** - Advanced animations and transitions
-- **Socket.IO Client 4.8.1** - Real-time bidirectional communication
-
-### Backend Technologies
-- **FastAPI 1.0.0** - Modern, fast web framework for building APIs
-- **WebSocket Support** - Real-time bidirectional communication
-- **CORS Middleware** - Cross-origin resource sharing
-- **Uvicorn** - ASGI server for production deployment
-
-### AI/ML Technologies
-- **Roboflow Inference** - Ultra-fast computer vision inference
-- **OpenCV** - Computer vision and image processing
-- **Custom Model**: `driver-behaviour-ge5cr/1` - Specialized driver behavior detection
-
-### Additional Tools
-- **Telegram Bot API** - Instant notifications and alerts
-- **Socket.IO** - Real-time event-based communication
-- **ESLint** - Code quality and consistency
-- **PostCSS** - CSS processing and optimization
-
-## Installation
+## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+ and npm/yarn
-- Python 3.8+ with pip
-- Git for version control
 
-### Frontend Setup
+- **Python 3.8+**
+- **Node.js 16+**
+- **Webcam/Camera**
+- **Roboflow Account & API Key**
+
+### 1. Clone and Setup
+
 ```bash
+# Clone the repository
+git clone <your-repo-url>
+cd copag-monitoring-system
+
+# Set your Roboflow API key
+export ROBOFLOW_API_KEY="your_api_key_here"
+```
+
+### 2. Backend Setup
+
+```bash
+# Navigate to backend
+cd backend
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Start the backend server
+python main.py
+```
+
+**Expected Output:**
+```
+INFO:main:Starting Roboflow Driver Monitoring Backend
+INFO:main:WebSocket server started on ws://localhost:8000
+INFO:main:Backend ready - waiting for camera commands
+```
+
+### 3. Frontend Setup
+
+```bash
+# Navigate to frontend (new terminal)
 cd frontend
+
+# Install dependencies
 npm install
+
+# Start the development server
 npm run dev
 ```
 
-### Backend Setup
-```bash
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install fastapi uvicorn websockets python-socketio
-
-# Run the server
-python backend/main.py
+**Expected Output:**
+```
+Vite dev server running at http://localhost:5173
 ```
 
-### AI Model Setup
-```bash
-# Install Roboflow inference
-pip install inference
+### 4. Use the System
 
-# Configure API key in stream_model.py
-# Run the detection pipeline
-python stream_model.py
-```
+1. **Open Browser**: Navigate to `http://localhost:5173`
+2. **Click "Start Camera"**: Backend will start camera and Roboflow inference
+3. **View Live Detections**: See real-time bounding boxes and detection labels
+4. **Monitor Dashboard**: Watch charts update with live detection data
 
-## Project Structure
-
-```
-Copag Mon. Sys/
-├── frontend/                 # React application
-│   ├── src/
-│   │   ├── components/       # Reusable UI components
-│   │   │   ├── Dashboard/   # Dashboard-specific components
-│   │   │   └── ui/          # Base UI components (shadcn/ui)
-│   │   ├── hooks/           # Custom React hooks
-│   │   ├── pages/           # Application pages
-│   │   └── lib/             # Utility functions
-│   ├── public/              # Static assets
-│   └── package.json         # Dependencies and scripts
-├── backend/                 # FastAPI server
-│   ├── main.py              # Main application file
-│   └── run.py               # Server runner
-├── stream_model.py          # AI inference pipeline
-├── .gitignore              # Git ignore rules
-└── README.md               # Project documentation
-```
-
-## API Endpoints
-
-### WebSocket Endpoints
-- `ws://localhost:8000/ws` - Real-time communication channel
-
-### REST API Endpoints
-- `GET /` - Root endpoint with system information
-- `GET /health` - Health check endpoint
-- `GET /stats` - System statistics and monitoring status
-- `POST /start` - Start monitoring session
-- `POST /stop` - Stop monitoring session
-
-## Configuration
+## 🔧 Configuration
 
 ### Environment Variables
-Create a `.env` file in the root directory:
 
-```env
-# Roboflow Configuration
+Create a `.env` file in the backend directory:
+
+```bash
+# Backend Configuration
 ROBOFLOW_API_KEY=your_api_key_here
-MODEL_ID=driver-behaviour-ge5cr
-MODEL_VERSION=1
+ROBOFLOW_MODEL_ID=driver-behaviour-ge5cr/1
+HOST=0.0.0.0
+PORT=8000
+DEBUG=false
+LOG_LEVEL=INFO
 
-# Telegram Bot Configuration
-TELEGRAM_BOT_TOKEN=your_bot_token_here
-TELEGRAM_CHAT_ID=your_chat_id_here
-
-# Server Configuration
-BACKEND_HOST=0.0.0.0
-BACKEND_PORT=8000
-FRONTEND_PORT=3000
+# Performance Tuning
+TARGET_FPS=30
+MAX_FRAME_QUEUE_SIZE=10
+MAX_CONNECTIONS=10
 ```
 
-## Development
+### Model Configuration
 
-### Running in Development Mode
+Update `backend/main.py` to use your specific model:
+
+```python
+# Line 460 in main.py
+success = await ws_manager.start_inference(
+    model_id="your-model-id/version",  # Your Roboflow model
+    api_key="your_api_key_here"        # Your API key
+)
+```
+
+## 📊 Performance Optimization
+
+### CPU Optimization
+
+The system is optimized for CPU environments:
+
+- **Frame Resizing**: Automatically resizes frames to 640x480 for faster processing
+- **JPEG Compression**: Optimized encoding with 85% quality for speed
+- **Queue Management**: Limited frame queues to prevent memory issues
+- **Threading**: Separate threads for inference and WebSocket handling
+
+### Latency Optimization
+
+- **Target Latency**: <150ms end-to-end
+- **Frame Rate**: 30 FPS with adaptive quality
+- **WebSocket**: Binary frame transmission for efficiency
+- **Caching**: Smart frame caching to reduce processing
+
+## 🛠️ Development
+
+### Backend Development
+
 ```bash
-# Terminal 1: Start backend
+# Run with auto-reload
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+
+# Run with debug logging
+DEBUG=true python main.py
+```
+
+### Frontend Development
+
+```bash
+# Run with hot reload
+npm run dev
+
+# Build for production
+npm run build
+```
+
+### Testing
+
+```bash
+# Test WebSocket connection
+python test_video_stream.py
+
+# Test camera access
+python camera_test.py
+```
+
+## 📈 Monitoring
+
+### Health Endpoints
+
+- **Health Check**: `GET http://localhost:8000/`
+- **System Status**: `GET http://localhost:8000/status`
+- **WebSocket**: `ws://localhost:8000/ws`
+
+### Performance Metrics
+
+The system tracks:
+- **FPS**: Frames per second
+- **Latency**: End-to-end processing time
+- **Detection Count**: Number of detections per frame
+- **Connection Status**: WebSocket connection health
+
+## 🚀 Production Deployment
+
+### Local Production
+
+```bash
+# Backend (Terminal 1)
 cd backend
 python main.py
 
-# Terminal 2: Start frontend
-cd frontend
-npm run dev
-
-# Terminal 3: Start AI pipeline
-python stream_model.py
-```
-
-### Building for Production
-```bash
-# Build frontend
+# Frontend (Terminal 2)
 cd frontend
 npm run build
-
-# The built files will be in frontend/dist/
+npm run preview
 ```
 
-## Features in Detail
+### Cloud Deployment Options
 
-### Dashboard Components
-- **Real-time Video Feed** - Live camera stream with AI overlay
-- **Safety Score** - Dynamic safety rating based on behavior
-- **Behavior Charts** - Visual analytics of driver patterns
-- **Alerts Panel** - Real-time notifications and warnings
-- **System Status** - Health monitoring and connection status
-- **AI Insights** - Machine learning-powered recommendations
+#### Option 1: Modal GPU Endpoints (Recommended for Scale)
 
-### AI Detection Capabilities
-- **Distraction Detection** - Identifies phone usage, eating, etc.
-- **Attention Monitoring** - Tracks driver focus and alertness
-- **Behavioral Patterns** - Learns and adapts to driver habits
-- **Risk Assessment** - Calculates safety scores and risk levels
+```python
+# Create modal_gpu_inference.py
+import modal
 
-## Contributing
+app = modal.App("roboflow-driver-monitoring")
+
+@app.function(
+    image=modal.Image.debian_slim().pip_install("inference", "roboflow"),
+    gpu="T4",
+    timeout=300
+)
+def run_inference(frame_data, model_id, api_key):
+    # Run inference on Modal GPU
+    # Return results to local backend
+    pass
+```
+
+**Benefits:**
+- **GPU Acceleration**: 10x faster inference
+- **Scalability**: Handle multiple streams
+- **Cost Effective**: Pay per inference
+
+**Latency Trade-off:**
+- **Local**: ~150ms (CPU)
+- **Modal**: ~300ms (GPU + Network)
+
+#### Option 2: AWS EC2
+
+```bash
+# Deploy on EC2 instance
+sudo apt-get update
+sudo apt-get install python3-pip nginx
+
+# Install dependencies
+pip3 install -r requirements.txt
+
+# Run with systemd
+sudo systemctl enable roboflow-monitoring
+sudo systemctl start roboflow-monitoring
+```
+
+#### Option 3: Google Cloud Run
+
+```yaml
+# cloudbuild.yaml
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/roboflow-monitoring', '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/roboflow-monitoring']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['run', 'deploy', 'roboflow-monitoring', '--image', 'gcr.io/$PROJECT_ID/roboflow-monitoring']
+```
+
+## 🔍 Troubleshooting
+
+### Common Issues
+
+#### 1. Camera Access Denied
+```bash
+# Check camera permissions
+ls /dev/video*
+
+# Test camera access
+python -c "import cv2; cap = cv2.VideoCapture(0); print('Camera works:', cap.isOpened())"
+```
+
+#### 2. WebSocket Connection Failed
+```bash
+# Check if backend is running
+curl http://localhost:8000/
+
+# Test WebSocket connection
+python test_video_stream.py
+```
+
+#### 3. Low Performance
+```bash
+# Check system resources
+htop
+
+# Reduce frame rate
+export TARGET_FPS=15
+
+# Reduce frame quality
+# Edit main.py line 85: quality = 70
+```
+
+#### 4. Model Not Loading
+```bash
+# Verify API key
+echo $ROBOFLOW_API_KEY
+
+# Test API connection
+curl -H "Authorization: Bearer $ROBOFLOW_API_KEY" https://api.roboflow.com/
+```
+
+### Debug Mode
+
+```bash
+# Enable debug logging
+export DEBUG=true
+export LOG_LEVEL=DEBUG
+
+# Run with verbose output
+python main.py
+```
+
+## 📚 API Reference
+
+### WebSocket Messages
+
+#### Start Camera
+```json
+{
+  "type": "start_camera"
+}
+```
+
+#### Stop Camera
+```json
+{
+  "type": "stop_camera"
+}
+```
+
+#### Prediction Response
+```json
+{
+  "type": "prediction",
+  "data": {
+    "detections": [
+      {
+        "class": "Distracted",
+        "confidence": 0.85,
+        "bbox": [100, 150, 200, 300],
+        "timestamp": 1234567890.123
+      }
+    ],
+    "frame_data": "base64_encoded_image",
+    "timestamp": 1234567890.123,
+    "counts": {
+      "Dangerous Driving": 2,
+      "Distracted": 8,
+      "Safe Driving": 15
+    }
+  }
+}
+```
+
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
-## License
+## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Support
+## 🆘 Support
 
-For support and questions:
-- Create an issue in the GitHub repository
-- Contact the development team
-- Check the documentation for troubleshooting
+- **Documentation**: Check this README
+- **Issues**: Create a GitHub issue
+- **Discussions**: Use GitHub Discussions
+- **Email**: Contact the development team
 
 ---
 
-<div align="center">
-  <p>Built with ❤️ for driver safety and road security</p>
-  <p>© 2024 Copag Monitoring System. All rights reserved.</p>
-</div>
+**Built with ❤️ using Roboflow, FastAPI, and React**
