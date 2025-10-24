@@ -10,14 +10,12 @@ interface SimplePieChartProps {
 }
 
 export const SimplePieChart = ({ data }: SimplePieChartProps) => {
-  console.log('🥧 SimplePieChart received data:', data);
   
   // Ensure we have data
   const safeData = data && data.length > 0 ? data : [
     { name: "No Data", value: 1, color: "#808080" }
   ];
 
-  console.log('🥧 SimplePieChart safeData:', safeData);
 
   return (
     <div className="h-80 w-full">

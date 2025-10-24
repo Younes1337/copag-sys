@@ -8,6 +8,7 @@ import { VideoFeed } from "@/components/Dashboard/VideoFeed";
 import { EyeMetrics } from "@/components/Dashboard/EyeMetrics";
 import { DistractionPieChart } from "@/components/Dashboard/DistractionPieChart";
 import { ConcentrationGauge } from "@/components/Dashboard/ConcentrationGauge";
+import { TelegramAlerts } from "@/components/Dashboard/TelegramAlerts";
 import { useToast } from "@/hooks/use-toast";
 import { useInference } from "@/hooks/useInference";
 import { Eye, AlertTriangle, Activity, Zap, Brain, Wifi } from "lucide-react";
@@ -101,6 +102,20 @@ const Index = () => {
     }
   ];
 
+  // Calculate concentration based on detection counts
+  const calculateConcentration = () => {
+    const totalDetections = Object.values(detectionCounts).reduce((sum, count) => sum + count, 0);
+    if (totalDetections === 0) return 100; // Default to 100% if no detections
+    
+    const safeDrivingCount = detectionCounts.SafeDriving || 0;
+    const concentration = Math.round((safeDrivingCount / totalDetections) * 100);
+    
+    // Ensure concentration is between 0 and 100
+    return Math.max(0, Math.min(100, concentration));
+  };
+
+  const concentration = calculateConcentration();
+
   const handleStartCamera = () => {
     console.log('handleStartCamera called in Index component');
     setIsCameraActive(true);
@@ -157,6 +172,14 @@ const Index = () => {
 
             {/* Right Sidebar */}
             <div className="col-span-4 space-y-6">
+              {/* Telegram Alerts */}
+              <TelegramAlerts 
+                detectionData={detections}
+                detectionCounts={detectionCounts}
+                concentration={concentration}
+                videoElement={videoElement}
+              />
+              
               {/* Driver Concentration Gauge */}
               <ConcentrationGauge 
                 detectionCounts={detectionCounts}

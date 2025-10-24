@@ -35,7 +35,6 @@ export const corsFetch = async (url, options = {}) => {
 export const testUrlAccess = async (url) => {
   try {
     const response = await corsFetch(url);
-    console.log(`✅ ${url} is accessible:`, response.status);
     return true;
   } catch (error) {
     console.log(`❌ ${url} is not accessible:`, error.message);

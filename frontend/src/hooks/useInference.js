@@ -2,6 +2,21 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { getRoboflowConfig, validateConfig } from '@/config/roboflow';
 import { updateDetectionCounts, getDetectionStats } from '@/utils/detectionStorage';
 
+// Suppress TensorFlow.js kernel registration warnings
+const originalWarn = console.warn;
+console.warn = (...args) => {
+  const message = args[0];
+  if (typeof message === 'string' && (
+    message.includes('kernel') && message.includes('already registered') ||
+    message.includes('backend') && message.includes('webgl') ||
+    message.includes('TensorFlow') ||
+    message.includes('updateFilling Resume is called')
+  )) {
+    return; // Suppress TensorFlow warnings
+  }
+  originalWarn.apply(console, args);
+};
+
 // Get configuration
 const ROBOFLOW_CONFIG = getRoboflowConfig();
 const DETECTION_CLASSES = ROBOFLOW_CONFIG.classes;
@@ -105,7 +120,6 @@ export const useInference = () => {
       const stats = getDetectionStats();
       setStorageStats(stats);
       setDetectionCounts(stats.detectionCounts);
-      console.log('📊 Loaded initial detection data from storage:', stats);
     } catch (err) {
       console.error('Error loading initial detection data:', err);
     }
@@ -147,33 +161,23 @@ export const useInference = () => {
       // Dynamic import to avoid SSR issues
       const inferenceModule = await import('inferencejs');
       
-      console.log('🔍 Full inference module:', inferenceModule);
-      console.log('🔍 Module keys:', Object.keys(inferenceModule));
       
       // Handle different export formats
       let Inference;
       if (inferenceModule.InferenceEngine) {
         Inference = inferenceModule.InferenceEngine;
-        console.log('✅ Using InferenceEngine export');
       } else if (inferenceModule.default) {
         Inference = inferenceModule.default;
-        console.log('✅ Using default export');
       } else if (inferenceModule.Inference) {
         Inference = inferenceModule.Inference;
-        console.log('✅ Using Inference export');
       } else if (typeof inferenceModule === 'function') {
         Inference = inferenceModule;
-        console.log('✅ Using function export');
       } else {
         console.error('❌ Available exports:', Object.keys(inferenceModule));
         throw new Error('Could not find Inference class in inferencejs module');
       }
       
-      console.log('🔍 Inference class:', typeof Inference, Inference);
       
-      console.log('🤖 Initializing Roboflow model...');
-      console.log('📋 Model:', ROBOFLOW_CONFIG.modelId);
-      console.log('🔑 API Key:', ROBOFLOW_CONFIG.apiKey.substring(0, 8) + '...');
       
       // Initialize the model
       const model = new Inference();
@@ -189,7 +193,6 @@ export const useInference = () => {
       setIsInitialized(true);
       setIsLoading(false);
       
-      console.log('✅ Roboflow model initialized successfully');
       
     } catch (err) {
       console.error('❌ Failed to initialize Roboflow model:', err);
@@ -296,16 +299,13 @@ export const useInference = () => {
       performanceRef.current.totalFrames++;
       if (processingTime > 150) {
         performanceRef.current.slowFrames++;
-        console.warn(`⚠️ Slow inference: ${processingTime.toFixed(2)}ms`);
       }
       
       // Adaptive frame skipping based on performance
       if (processingTime > 200) {
         maxFrameSkipRef.current = Math.min(maxFrameSkipRef.current + 1, 15); // Increase skip if very slow
-        console.log(`🔄 Adaptive frame skip increased to ${maxFrameSkipRef.current}`);
       } else if (processingTime < 50 && maxFrameSkipRef.current > 3) {
         maxFrameSkipRef.current = Math.max(maxFrameSkipRef.current - 1, 3); // Decrease skip if fast
-        console.log(`🔄 Adaptive frame skip decreased to ${maxFrameSkipRef.current}`);
       }
       
     } catch (err) {

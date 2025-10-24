@@ -1,5 +1,5 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
-import { AlertTriangle, Eye, Zap, Activity, Shield, Coffee, RefreshCw } from 'lucide-react';
+import { AlertTriangle, Eye, Zap, Activity, Shield, Coffee, RefreshCw, Trash2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useDetectionStorage } from '@/hooks/useDetectionStorage';
@@ -19,7 +19,8 @@ export const DistractionPieChart = ({ distractionData }: DistractionPieChartProp
     detectionData,
     totalDetections,
     detectionCounts: storageCounts,
-    refreshData
+    refreshData,
+    resetData
   } = useDetectionStorage();
 
   // Class configuration mapping with professional colors
@@ -37,11 +38,6 @@ export const DistractionPieChart = ({ distractionData }: DistractionPieChartProp
 
   // Generate pie chart data
   const pieChartData = () => {
-    console.log('🥧 Generating pie chart data');
-    console.log('🥧 detectionData:', detectionData);
-    console.log('🥧 storageCounts:', storageCounts);
-    console.log('🥧 totalDetections:', totalDetections);
-    console.log('🥧 distractionData prop:', distractionData);
 
     // If we have storage data, use it
     if (detectionData && storageCounts && Object.keys(storageCounts).length > 0) {
@@ -49,11 +45,9 @@ export const DistractionPieChart = ({ distractionData }: DistractionPieChartProp
       const total = totalDetections || 0;
       
       if (total === 0) {
-        console.log('🥧 No detections in storage, using props data');
         return distractionData || [];
       }
 
-      console.log('🥧 Using storage data');
       return Object.entries(counts).map(([className, count]) => {
         const classConfig = getClassConfig(className);
         return {
@@ -65,12 +59,10 @@ export const DistractionPieChart = ({ distractionData }: DistractionPieChartProp
     }
 
     // Fallback to props data
-    console.log('🥧 Using props data as fallback');
     return distractionData || [];
   };
 
   const data = pieChartData();
-  console.log('🥧 Final data for pie chart:', data);
 
   // Ensure we have data - force some test data if empty
   const safeData = data && data.length > 0 ? data : [
@@ -79,8 +71,6 @@ export const DistractionPieChart = ({ distractionData }: DistractionPieChartProp
     { name: "Demo", value: 2, color: "#0000FF" }
   ];
 
-  console.log('🥧 Safe data for rendering:', safeData);
-  console.log('🥧 Safe data values:', safeData.map(item => ({ name: item.name, value: item.value, color: item.color })));
   
   const totalDistractions = safeData.reduce((sum, item) => sum + (Number(item.value) || 0), 0);
   const [selectedSegment, setSelectedSegment] = useState(safeData[0] || null);
@@ -148,6 +138,17 @@ export const DistractionPieChart = ({ distractionData }: DistractionPieChartProp
             title="Refresh data from storage"
           >
             <RefreshCw className="w-4 h-4 text-gray-500" />
+          </button>
+          <button
+            onClick={() => {
+              if (confirm('Are you sure you want to clear all detection data? This action cannot be undone.')) {
+                resetData();
+              }
+            }}
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            title="Clear all detection data"
+          >
+            <Trash2 className="w-4 h-4 text-gray-500 hover:text-red-600" />
           </button>
         </div>
       </div>

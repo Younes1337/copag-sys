@@ -92,7 +92,7 @@ export const EyeMetrics = ({ isActive, videoElement }) => {
     <div className="space-y-6">
 
       {/* Real-time Metrics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6">
         {/* Eye Aspect Ratio (EAR) */}
         <Card>
           <CardHeader>
@@ -102,7 +102,7 @@ export const EyeMetrics = ({ isActive, videoElement }) => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-64">
+            <div className="h-96">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={earData}>
                   <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
@@ -159,7 +159,7 @@ export const EyeMetrics = ({ isActive, videoElement }) => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-64">
+            <div className="h-96">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={frequencyData}>
                   <CartesianGrid strokeDasharray="3 3" className="opacity-30" />

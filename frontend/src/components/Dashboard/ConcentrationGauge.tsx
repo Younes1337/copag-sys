@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Target, AlertTriangle, CheckCircle, Clock, RefreshCw } from 'lucide-react';
+import { Target, AlertTriangle, CheckCircle, Clock, RefreshCw, Trash2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useDetectionStorage } from '@/hooks/useDetectionStorage';
 
@@ -10,11 +10,17 @@ interface ConcentrationGaugeProps {
 }
 
 export const ConcentrationGauge = ({ detectionCounts, totalDetections }: ConcentrationGaugeProps) => {
-  // Use real-time data from storage
-  const { detectionData, totalDetections: storageTotal, storageCounts, refreshData } = useDetectionStorage();
+  // Use real-time data from storage - same as pie chart
+  const { 
+    detectionData, 
+    totalDetections: storageTotal, 
+    detectionCounts: storageCounts, 
+    refreshData, 
+    resetData 
+  } = useDetectionStorage();
   const [isUpdating, setIsUpdating] = useState(false);
   
-  // Use storage data if available, fallback to props
+  // Use storage data if available, fallback to props - same logic as pie chart
   const realTimeCounts = (storageCounts && Object.keys(storageCounts).length > 0) ? storageCounts : detectionCounts;
   const realTimeTotal = storageTotal > 0 ? storageTotal : totalDetections;
   
@@ -29,8 +35,6 @@ export const ConcentrationGauge = ({ detectionCounts, totalDetections }: Concent
   
   // Calculate concentration based on detection classes using the provided formula
   const calculateConcentration = () => {
-    if (realTimeTotal === 0) return 100; // No detections = perfect concentration
-    
     const safeDriving = (realTimeCounts && realTimeCounts['SafeDriving']) || 0;
     const dangerousDriving = (realTimeCounts && realTimeCounts['DangerousDriving']) || 0;
     const distracted = (realTimeCounts && realTimeCounts['Distracted']) || 0;
@@ -42,7 +46,7 @@ export const ConcentrationGauge = ({ detectionCounts, totalDetections }: Concent
     // NTotal = NSafe + NDangerous + NDistracted + NDrinking + NYawn + NSleepyDriving
     const calculatedTotal = safeDriving + dangerousDriving + distracted + drinking + yawn + sleepyDriving;
     
-    // If calculated total is 0, return 100% concentration
+    // If calculated total is 0, return 100% concentration (no detections = perfect)
     if (calculatedTotal === 0) return 100;
     
     // Concentration = (Safe Driving / Total) * 100
@@ -102,6 +106,17 @@ export const ConcentrationGauge = ({ detectionCounts, totalDetections }: Concent
               title="Refresh data"
             >
               <RefreshCw className="w-4 h-4 text-gray-500 hover:text-blue-600" />
+            </button>
+            <button
+              onClick={() => {
+                if (confirm('Are you sure you want to clear all detection data? This action cannot be undone.')) {
+                  resetData();
+                }
+              }}
+              className="p-1 hover:bg-gray-100 rounded transition-colors"
+              title="Clear all data"
+            >
+              <Trash2 className="w-4 h-4 text-gray-500 hover:text-red-600" />
             </button>
           </div>
         </CardTitle>
@@ -176,21 +191,6 @@ export const ConcentrationGauge = ({ detectionCounts, totalDetections }: Concent
           </div>
         </motion.div>
 
-        {/* Zone Indicators */}
-        <div className="flex justify-between text-xs text-gray-500">
-          <div className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full bg-red-500"></div>
-            <span>Critical</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full bg-amber-500"></div>
-            <span>Acceptable</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full bg-green-500"></div>
-            <span>Good</span>
-          </div>
-        </div>
 
       </CardContent>
     </Card>
